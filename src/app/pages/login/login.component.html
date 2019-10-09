@@ -16,5 +16,27 @@
                Email is required
            </div>
        </div>
+       <div class='form-group'>
+           <label>Password</label>
+           <div>
+              <input type='password' class='form-control form-control-lg' id='password' name='password' autocomplete="password"
+                placeholder="Password" required [(ngModel)]='model.password' #password='ngModel'>
+                <div [hidden]='password.valid || password.pristine' class='alert-danger'>
+                    Password is required
+                </div>
+           </div>
+       </div>
+
+       <div class="form-group">
+            <div>
+                <input type="checkbox" id="remember_me" name="remember-me" [(ngModel)]="model.remembered">
+                <label for="remember_me" class="inline">Remember me</label>
+                <a class="float-right" routerLink="/register">Sign Up</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button [disabled]="!form.form.valid" type="submit" class="btn btn-lg btn-primary btn-block">Sign In</button>
+        </div>
     </form>
 </div>

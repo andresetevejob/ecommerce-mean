@@ -13,6 +13,13 @@ import { ProductListComponent } from './pages/product-list/product-list.componen
 import { ProductEditComponent } from './pages/product-edit/product-edit.component';
 import { UserEditComponent } from './pages/user-edit/user-edit.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import { AppRoutingModule } from './app.-routing.module';
+import {FormsModule} from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { HttpClientModule } from '@angular/common/http'; 
+import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -30,9 +37,15 @@ import { SignupComponent } from './pages/signup/signup.component';
     SignupComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    CookieService,
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

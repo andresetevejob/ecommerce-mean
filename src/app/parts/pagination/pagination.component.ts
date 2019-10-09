@@ -9,7 +9,7 @@ export class PaginationComponent implements OnInit {
 
   @Input() currentPage: any;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
   }

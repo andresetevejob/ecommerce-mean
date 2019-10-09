@@ -3,7 +3,7 @@ import {UserService} from "../../services/user.service";
 import {Subscription} from "rxjs";
 import {JwtResponse} from "../../response/jwt.response";
 import {Router} from "@angular/router";
-import {Role} from "../../enum/Role";
+import {Role} from "../../enum/role";
 
 @Component({
   selector: 'app-navigation',
