@@ -15,5 +15,14 @@
                         <br>
                  </div>
         </div>
+        <a routerLink="/product/{{productInfo?.productId}}" *ngIf='productInfo?.productStatus==0;else offBlock' class="btn btn-primary btn-lg">
+          Get it
+   </a>
+   <ng-template #offBlock>
+      <a class="btn btn-secondary btn-lg disabled">Unavailable</a>
+   </ng-template>
      </div>
+     <p *ngIf="!page?.content.length">Empty Book List</p>
+     
+     
 </div>

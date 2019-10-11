@@ -20,7 +20,11 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { HttpClientModule } from '@angular/common/http'; 
 import {CookieService} from "ngx-cookie-service";
-
+import { environment } from '../environments/environment';
+import { HttpMockRequestInterceptor } from './interceptors/http.mock.request.interceptor';
+import { ProductDetailComponent } from './pages/product-detail/product-detail/product-detail.component';
+export const isMock = environment.mock;
+console.log(isMock);
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +38,8 @@ import {CookieService} from "ngx-cookie-service";
     ProductListComponent,
     ProductEditComponent,
     UserEditComponent,
-    SignupComponent
+    SignupComponent,
+    ProductDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -44,8 +49,15 @@ import {CookieService} from "ngx-cookie-service";
   ],
   providers: [
     CookieService,
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}],
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: isMock ? HttpMockRequestInterceptor : JwtInterceptor,
+      multi: true
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+   
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

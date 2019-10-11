@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
 import { ActivatedRoute } from '@angular/router';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-card',
@@ -12,18 +13,25 @@ export class CardComponent implements OnInit,OnDestroy {
 
   title:string;
   page:any;
-  private paramSub:Subscription;
-  private querySub:Subscription;
+  
+  private allParams:Subscription;
 
   constructor(private productService:ProductService,private route:ActivatedRoute) { }
 
   ngOnInit() { 
-    this.querySub = this.route.queryParams.subscribe(()=>{
-      this.update();
-    })
-    this.paramSub = this.route.params.subscribe(()=>{
-      this.update();
-    })
+    
+    const params = this.route.params;
+    const queryParams = this.route.queryParams;
+
+    /**
+     * source  : https://stackoverflow.com/questions/45451389/angular-combine-params-and-queryparams-observables
+     * combineLatest : https://www.learnrxjs.io/operators/combination/combinelatest.html
+     */
+    this.allParams = combineLatest(params, queryParams, (params, qparams) => ({ params, qparams }))
+      .subscribe(allParams => {
+        console.log(allParams.params, allParams.qparams);
+        this.update();
+      });
   }
   update(){
     if(this.route.snapshot.queryParamMap.get('page')) {
@@ -37,8 +45,9 @@ export class CardComponent implements OnInit,OnDestroy {
   getProducts(page:number=1,size:number=3) {
     if (this.route.snapshot.url.length == 1) {
       /**
-       *  var x = "32";
-          var y = +x; // y: number
+       *cast string to number typeScript
+       *var x = "32";
+       *var y = +x; // y: number
        */
       this.productService.getAllInPage(+page, +size)
         .subscribe(page => {
@@ -55,8 +64,7 @@ export class CardComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.querySub.unsubscribe();
-    this.paramSub.unsubscribe();
+    this.allParams.unsubscribe();
   }
 
   
