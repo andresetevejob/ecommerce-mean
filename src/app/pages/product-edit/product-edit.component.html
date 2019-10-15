@@ -1,2 +1,97 @@
 <h1 align="center" class="display-4 mb-5">Edit Product</h1>
-
+<div style="width:40%; margin: 25px auto">
+  <form #form='ngForm' (ngSubmit)='onSubmit()'>
+    <div class='form-group'>
+        <label for='productId'>Code</label>
+        <input [readOnly]='isEdit' [disabled]='isEdit' [(ngModel)]='product.productId' type='text'
+         class='form-control form-control-lg' #productIdInput id='productId' name='productId' required #productIdInput='ngModel'/>
+         <div *ngIf='productIdInput.invalid && (productIdInput.dirty || productIdInput.touched)'>
+            <div *ngIf='productIdInput.errors.required'>
+                Code is required
+            </div>
+         </div>
+         
+    </div>
+    <!--- photo -->
+    <div class='form-group'>
+        <label>Photo Link</label>
+        <input type='text' [(ngModel)]='product.productIcon' class='form-control form-control-lg' id='productIcon' name='productIcon' placeholder="photo"/>
+    </div>
+    <!--- Name -->
+    <div class='form-group'>
+        <label>Name</label>
+        <input type='text' [(ngModel)]='product.productName' class='form-control form-control-lg' id='productName' name='productName' #productName
+        placeholder="Name" required #productName='ngModel'/>
+        <div *ngIf='productName.invalid && (productName.dirty || productName.touched)'>
+          <div *ngIf='productName.errors.required'>
+             Name is required
+          </div>
+        </div>
+    </div> 
+    <!--- Category -->
+    <div class='form-group'>
+       <label>Category</label>
+       <select class='custom-select custom-select-lg' id='categoryType' name='categoryType' [(ngModel)]='product.categoryType' required>
+         <option [ngValue]=0>Books</option>
+         <option [ngValue]=1>Food</option>
+         <option [ngValue]=2>Clothes</option>
+         <option [ngValue]=3>Drink</option>
+       </select>
+    </div>
+     <!---Description -->
+     <div class="form-group">
+        <textarea class='form-control form-control-lg text-left' id='productDescription' name='productDescription'
+         placeholder="Description" [(ngModel)]='product.productDescription'>
+         </textarea>
+    </div>
+    <!--- Price ------>
+    <div class='form-group'>
+      <label for='productPrice'></label>
+      <input class='form-control form-control-lg' 
+             id='productPrice' 
+             name='productPrice'
+             type='number'
+             id='productPrice'
+             #productPrice='ngModel'
+             [ngModel]='product.productPrice' (ngModelChange)='product.productPrice=$event'
+             required/>
+        <div *ngIf='productPrice.invalid && (productPrice.dirty || productPrice.touched)'>
+           <div *ngIf='productPrice.errors.required'>
+              Price is required
+           </div>
+        </div>
+    </div>
+    <!--- Stock -->
+    <div class='form-group'>
+        <label for='productStock'></label>
+        <input
+           class='form-control form-control-lg'
+           type='number'
+           id='productStock'
+           name='productStock'
+           #productStock='ngModel'
+           [(ngModel)]='product.productStock'
+           required
+        />
+        <div *ngIf='productStock.invalid && (productStock.dirty || product.touched)'>
+              <div **ngIf="productStock.errors.required">
+                 Stock is required
+              </div>
+        </div>
+    </div>  
+    <!--- Status -->
+    <div class='form-group'>
+        <label for='productStatus'>
+            Status
+        </label>
+        <select class='custom-select custom-select-lg' id='productStatus' name='productStatus' required
+        [(ngModel)]='product.productStatus'>
+           <option [ngValue]=0>Available</option>
+           <option [ngValue]=1>Unavailable</option>
+        </select>
+    </div> 
+    <div class='form-group'>
+      <button type='submit' [disabled]='!form.form.valid' class='btn btn-lg btn-primary btn-block'>Submit</button>
+    </div>
+  </form>
+</div>

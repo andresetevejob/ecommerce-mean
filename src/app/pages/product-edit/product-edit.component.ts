@@ -16,17 +16,16 @@ export class ProductEditComponent implements OnInit,AfterContentChecked {
 
   constructor(private productService: ProductService,
     private route:ActivatedRoute,
-    private router:Router) { }
+    private router:Router) {}
 
   ngOnInit() {
-    this.route.data.subscribe( 
-      (data: {productInfo:ProductInfo})=>this.product = data.productInfo)
+    this.route.data.subscribe((data: {productInfo:ProductInfo})=>this.product = data.productInfo)
     this.isEdit = true;
   }
 
   
   ngAfterContentChecked(): void {
-    throw new Error("Method not implemented.");
+   console.log(this.product);
   }
 
   onSubmit(){
